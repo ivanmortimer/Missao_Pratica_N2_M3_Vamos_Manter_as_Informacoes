@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Modelo_Logico_DbSchema_Loja_DB" database="LogicalDesign" id="56f90e45-4d5c-46c8-9f62-b16a76ccf6f4" >
+	<comment><![CDATA[Um modelo lógico para um banco de dados relacional qualquer de uma loja (denominado 
+"Loja_DB"). O modelo lógico do banco de dados "Loja_DB" possui as seguintes 
+entidades (tabelas):
+
+- Usuario
+- Pessoa_Fisica
+- Pessoa_Juridica
+- Produtos
+- Movimentos_de_Compras
+ - Movimentos_de_Vendas]]></comment>
+	<schema name="Modelo_Logico_DbSchema_Loja_DB" >
+		<table name="Movimento_de_Compra" prior="Movimentos_de_Compra" >
+			<comment><![CDATA[Registro dos movimentos de compras, feitas por usuários do banco de dados da loja, de produtos vendidos por pessoas jurídicas cadastradas na loja.]]></comment>
+			<column name="idMovimentoDeCompra" prior="idMovimentosDeCompra" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+				<comment><![CDATA[PK de Movimento_de_Compra]]></comment>
+			</column>
+			<column name="idUsuario" type="INT" jt="4" mandatory="y" >
+				<comment><![CDATA[FK de Movimento_de_Compra -> PK (idUsuario) de Usuario]]></comment>
+			</column>
+			<column name="idPessoaJuridica" type="INT" jt="4" mandatory="y" >
+				<comment><![CDATA[FK de Movimento_de_Compra -> PK (idPessoaJuridica) de Pessoa_Juridica]]></comment>
+			</column>
+			<column name="idProduto" type="INT" jt="4" mandatory="y" >
+				<comment><![CDATA[FK de Movimentos_de_Compra -> PK (idProduto) de Produto]]></comment>
+			</column>
+			<column name="quantidaDeProdutos" prior="quantidadeProdutos" type="INT" jt="4" mandatory="y" />
+			<column name="precoUnitario" type="NUMERIC" length="18" decimal="2" jt="2" mandatory="y" />
+			<index name="pk_Movimento_de_Compra" unique="PRIMARY_KEY" >
+				<comment><![CDATA[CONSTRAINT do tipo PRIMARY KEY sobre o atributo idModimentoDeCompra da tabela Movimento_de_Compra]]></comment>
+				<column name="idMovimentoDeCompra" />
+			</index>
+			<fk name="fk_Movimento_de_Compra_pk_Usuario" to_schema="Modelo_Logico_DbSchema_Loja_DB" to_table="Usuario" type="NonIdentifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="idUsuario" pk="idUsuario" />
+				<comment><![CDATA[CONSTRAINT do tipo FOREIGN KEY sobre o atributo idUsuario da tabela Movimento_de_Compra que referencia a PRIMARY KEY idUsuario da tabela Usuario]]></comment>
+			</fk>
+			<fk name="fk_Movimento_de_Compra_pk_Pessoa_Juridica" to_schema="Modelo_Logico_DbSchema_Loja_DB" to_table="Pessoa_Juridica" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="idPessoaJuridica" pk="idPessoaJuridica" />
+				<comment><![CDATA[CONSTRAINT do tipo FOREIGN KEY sobre o atributo idPessoaJuridica da tabela Movimento_de_Compra que referencia a PRIMARY KEY idPessoaJuridica da tabela _PessoaJuridica]]></comment>
+			</fk>
+			<fk name="fk_Movimento_de_Compra_pk_Produto" to_schema="Modelo_Logico_DbSchema_Loja_DB" to_table="Produto" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="idProduto" pk="idProduto" />
+				<comment><![CDATA[CONSTRAINT do tipo FOREIGN KEY sobre o atributo idProduto da tabela Movimento_de_Compra que referencia a PRIMARY KEY idProduto da tabela Produto]]></comment>
+			</fk>
+		</table>
+		<table name="Movimento_de_Venda" prior="Movimentos_de_Venda" >
+			<comment><![CDATA[Registro dos movimentos de compras, feitas por usuários da loja, de produtos vendidos por pessoas jurídicas cadastradas na loja.]]></comment>
+			<column name="idMovimentoDeVenda" prior="idMovimentosDeCompra" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+				<comment><![CDATA[PK de Movimentos_de_Compra]]></comment>
+			</column>
+			<column name="idUsuario" type="INT" jt="4" mandatory="y" >
+				<comment><![CDATA[FK de Movimento_de_Compra -> PK (idUsuario) de Usuario]]></comment>
+			</column>
+			<column name="idPessoaFisica" prior="idPessoaJuridica" type="INT" jt="4" mandatory="y" >
+				<comment><![CDATA[FK de Movimento_de_Compra -> PK (idPessoaFisica) de Pessoa_Fisica]]></comment>
+			</column>
+			<column name="idProduto" type="INT" jt="4" mandatory="y" >
+				<comment><![CDATA[FK de Movimento_de_Compra -> PK (idProduto) de Produto]]></comment>
+			</column>
+			<column name="quantidaDeProdutos" prior="quantidadeProdutos" type="INT" jt="4" mandatory="y" />
+			<column name="precoVenda" prior="precoVanda" type="NUMERIC" length="18" decimal="2" jt="2" mandatory="y" />
+			<index name="pk_Movimento_de_Venda" unique="PRIMARY_KEY" >
+				<comment><![CDATA[CONSTRAINT do tipo PRIMARY KEY sobre o atributo idModimentoDeVenda da tabela Movimento_de_Venda]]></comment>
+				<column name="idMovimentoDeVenda" />
+			</index>
+			<fk name="fk_Movimento_de_Venda_pk_Usuario" to_schema="Modelo_Logico_DbSchema_Loja_DB" to_table="Usuario" type="NonIdentifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="idUsuario" pk="idUsuario" />
+				<comment><![CDATA[CONSTRAINT do tipo FOREIGN KEY sobre o atributo idUsuario da tabela Movimento_de_Venda que referencia a PRIMARY KEY idUsuario da tabela Usuario]]></comment>
+			</fk>
+			<fk name="fk_Movimento_de_Venda_pk_Pessoa_Fisica" to_schema="Modelo_Logico_DbSchema_Loja_DB" to_table="Pessoa_Fisica" type="NonIdentifying" mandatory="y" cardinality="OneMore" range_from="0" range_to="0" >
+				<fk_column name="idPessoaFisica" pk="idPessoaFisica" />
+				<comment><![CDATA[CONSTRAINT do tipo FOREIGN KEY sobre o atributo idPessoaFisica da tabela Movimento_de_Venda que referencia a PRIMARY KEY idPessoaFisica da tabela Pessoa_Fisica]]></comment>
+			</fk>
+			<fk name="fk_Movimento_de_Venda_pk_Produto" to_schema="Modelo_Logico_DbSchema_Loja_DB" to_table="Produto" type="NonIdentifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="idProduto" pk="idProduto" />
+				<comment><![CDATA[CONSTRAINT do tipo FOREIGN KEY sobre o atributo idProduto da tabela Movimento_de_Venda que referencia a PRIMARY KEY idProduto da tabela Produto]]></comment>
+			</fk>
+		</table>
+		<table name="Pessoa" prior="Pessoas_Fisicas" >
+			<comment><![CDATA[Cadastro de Pessoas Físicas de uma loja fictícia.]]></comment>
+			<column name="idPessoa" prior="idPessoaFisica" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+				<comment><![CDATA[PK de Pessoa]]></comment>
+			</column>
+			<column name="nome" type="VARCHAR" length="255" jt="12" mandatory="y" />
+			<column name="cep" type="CHAR" length="8" jt="1" mandatory="y" />
+			<column name="logradouro" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="numero" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="complemento" type="VARCHAR" length="50" jt="12" />
+			<column name="bairro" type="VARCHAR" length="50" jt="12" />
+			<column name="cidade" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<column name="estado" type="CHAR" length="2" jt="1" mandatory="y" />
+			<column name="telefone" type="CHAR" length="11" jt="1" mandatory="y" />
+			<column name="email" type="VARCHAR" length="255" jt="12" mandatory="y" />
+			<column name="idUsuario" type="INT" jt="4" mandatory="y" />
+			<index name="pk_Pessoa" unique="PRIMARY_KEY" >
+				<comment><![CDATA[CONSTRAINT do tipo PRIMARY KEY sobre o atributo idPessoa da tabela Pessoa]]></comment>
+				<column name="idPessoa" />
+			</index>
+		</table>
+		<table name="Pessoa_Fisica" prior="Entity" >
+			<column name="idPessoaFisica" prior="idPessoa" type="INT" jt="4" mandatory="y" >
+				<comment><![CDATA[PK de Pessoa_Fisica; FK -> PK idPessoa de Pessoa]]></comment>
+			</column>
+			<column name="cpf" type="CHAR" length="11" jt="1" mandatory="y" />
+			<index name="pk_Pessoa_Fisica" unique="PRIMARY_KEY" >
+				<comment><![CDATA[CONSTRAINT do tipo PRIMARY KEY sobre o atributo idPessoaFisica da tabela Pessoa_Fisica]]></comment>
+				<column name="idPessoaFisica" />
+			</index>
+			<fk name="fk_Pessoa_Fisica_pk_Pessoa" to_schema="Modelo_Logico_DbSchema_Loja_DB" to_table="Pessoa" type="Identifying" mandatory="y" cardinality="ZeroOne" range_from="0" range_to="0" >
+				<fk_column name="idPessoaFisica" pk="idPessoa" />
+				<comment><![CDATA[CONSTRAINT do tipo FOREIGN KEY sobre o atributo idPessoaFisica que referencia a PRIMARY KEY idPessoa da tabela Pessoa]]></comment>
+			</fk>
+		</table>
+		<table name="Pessoa_Juridica" prior="Entity" >
+			<column name="idPessoaJuridica" prior="idPessoa" type="INT" jt="4" mandatory="y" >
+				<comment><![CDATA[PK de Pessoa_Juridica; FK -> PK idPessoa de Pessoa]]></comment>
+			</column>
+			<column name="cnpj" type="CHAR" length="14" jt="1" mandatory="y" />
+			<column name="idPessoa" type="INT" jt="4" />
+			<index name="pk_Pessoa_Juridica" unique="PRIMARY_KEY" >
+				<comment><![CDATA[CONSTRAINT do tipo PRIMARY KEY sobre o atributo idPessoaJuridica da tabela Pessoa_Juridica]]></comment>
+				<column name="idPessoaJuridica" />
+			</index>
+			<fk name="fk_Pessoa_Juridica_pk_Pessoa" to_schema="Modelo_Logico_DbSchema_Loja_DB" to_table="Pessoa" type="Identifying" mandatory="y" cardinality="ZeroOne" range_from="0" range_to="0" >
+				<fk_column name="idPessoaJuridica" pk="idPessoa" />
+				<comment><![CDATA[CONSTRAINT do tipo FOREIGN KEY sobre o atributo idPessoaJuridica da tabela Pessoa_Juridica que referencia a PRIMARY KEY idPessoa da tabela Pessoa]]></comment>
+			</fk>
+		</table>
+		<table name="Produto" prior="Produtos" >
+			<column name="idProduto" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+				<comment><![CDATA[PK de Produto]]></comment>
+			</column>
+			<column name="nome" type="VARCHAR" length="255" jt="12" mandatory="y" />
+			<column name="quantidade" type="INT" jt="4" mandatory="y" />
+			<column name="precoVenda" type="NUMERIC" length="18" decimal="2" jt="2" mandatory="y" />
+			<index name="pk_Produto" unique="PRIMARY_KEY" >
+				<comment><![CDATA[CONSTRAINT do tipo PRIMARY KEY sobre o atributo idProduto da tabela Produto]]></comment>
+				<column name="idProduto" />
+			</index>
+		</table>
+		<table name="Usuario" prior="Usuarios" >
+			<comment><![CDATA[Cadastro de usuários do sistema do banco de dados "Loja_DB" de uma loja fictícia.]]></comment>
+			<column name="idUsuario" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+				<comment><![CDATA[PK de Usuario]]></comment>
+			</column>
+			<column name="loginUsuario" type="VARCHAR" length="255" jt="12" mandatory="y" />
+			<column name="senhaUsuario" type="VARCHAR" length="255" jt="12" mandatory="y" />
+			<index name="pk_Usuarios" unique="PRIMARY_KEY" >
+				<comment><![CDATA[CONSTRAINT do tipo PRIMARY KEY sobre o atributo idUsuario da tabela Usuario]]></comment>
+				<column name="idUsuario" />
+			</index>
+		</table>
+	</schema>
+	<layout name="Diagrama Lógico de Loja_DB" id="0928c9af-8bf1-41ee-bdc4-fc74d939b469" show_relation="columns" >
+		<entity schema="Modelo_Logico_DbSchema_Loja_DB" name="Pessoa_Juridica" color="C1D8EE" x="640" y="60" />
+		<entity schema="Modelo_Logico_DbSchema_Loja_DB" name="Usuario" color="C1D8EE" x="360" y="380" />
+		<entity schema="Modelo_Logico_DbSchema_Loja_DB" name="Produto" color="C1D8EE" x="360" y="580" />
+		<entity schema="Modelo_Logico_DbSchema_Loja_DB" name="Pessoa" color="3986C1" x="360" y="60" />
+		<entity schema="Modelo_Logico_DbSchema_Loja_DB" name="Movimento_de_Compra" color="C1D8EE" x="600" y="320" />
+		<entity schema="Modelo_Logico_DbSchema_Loja_DB" name="Pessoa_Fisica" color="C1D8EE" x="60" y="60" />
+		<entity schema="Modelo_Logico_DbSchema_Loja_DB" name="Movimento_de_Venda" color="3986C1" x="60" y="320" />
+	</layout>
+</project>
